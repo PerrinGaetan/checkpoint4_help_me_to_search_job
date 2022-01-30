@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New SearchFilter{% endblock %}
+
+{% block body %}
+    <h1>Create new SearchFilter</h1>
+
+    {{ include('search_filter/_form.html.twig') }}
+
+    <a href="{{ path('search_filter_index') }}">back to list</a>
+{% endblock %}

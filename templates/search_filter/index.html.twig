@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SearchFilter index{% endblock %}
+
+{% block body %}
+    <h1>SearchFilter index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Job</th>
+                <th>City</th>
+                <th>Perimeter</th>
+                <th>TypeOfContract</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for search_filter in search_filters %}
+            <tr>
+                <td>{{ search_filter.id }}</td>
+                <td>{{ search_filter.job }}</td>
+                <td>{{ search_filter.city }}</td>
+                <td>{{ search_filter.perimeter }}</td>
+                <td>{{ search_filter.typeOfContract }}</td>
+                <td>
+                    <a href="{{ path('search_filter_show', {'id': search_filter.id}) }}">show</a>
+                    <a href="{{ path('search_filter_edit', {'id': search_filter.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('search_filter_new') }}">Create new</a>
+{% endblock %}
