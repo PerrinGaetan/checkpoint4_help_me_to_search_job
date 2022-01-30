@@ -37,6 +37,11 @@ class SearchFilter
      */
     private $typeOfContract;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,18 @@ class SearchFilter
     public function setTypeOfContract(?string $typeOfContract): self
     {
         $this->typeOfContract = $typeOfContract;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
 
         return $this;
     }
