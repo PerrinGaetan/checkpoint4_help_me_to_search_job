@@ -7,6 +7,7 @@ use App\Form\SearchFilterType;
 use App\Repository\SearchFilterRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,8 +35,12 @@ class SearchFilterController extends AbstractController
         $searchFilter = new SearchFilter();
         $form = $this->createForm(SearchFilterType::class, $searchFilter);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $job = $data->getJob();
+            $city = $data->getcity();
+            $client = HttpClient::create();
+
             $entityManager->persist($searchFilter);
             $entityManager->flush();
 

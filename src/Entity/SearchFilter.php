@@ -20,27 +20,27 @@ class SearchFilter
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $job;
+    private string $job;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $city;
+    private string $city;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $perimeter;
+    private ?int $perimeter;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $typeOfContract;
+    private ?string $typeOfContract;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private ?string $title;
 
     public function getId(): ?int
     {

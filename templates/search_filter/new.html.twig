@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New SearchFilter{% endblock %}
-
+{% block title %}Rechercher un emploi{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('search') }}
+{% endblock %}
 {% block body %}
-    <h1>Create new SearchFilter</h1>
+    <h1>Rechercher un emploi</h1>
 
     {{ include('search_filter/_form.html.twig') }}
-
+ {# <pe-offres-emploi></pe-offres-emploi> #}
     <a href="{{ path('search_filter_index') }}">back to list</a>
 {% endblock %}

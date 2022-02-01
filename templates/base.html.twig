@@ -11,9 +11,16 @@
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+             {# <script src="https://www.emploi-store-dev.fr/widget/pe-offres-emploi/pe-offres-emploi.js"></script>
+             <script>
+                &nbsp;&nbsp;&nbsp; var macarte = document.querySelector('pe-offres-emploi');
+                &nbsp;&nbsp;  macarte.options = {};
+                &nbsp;&nbsp;&nbsp; macarte.token = "mon token widget offre";
+            </script> #}
         {% endblock %}
     </head>
     <body>
+        {% include "components/navbar.html.twig" %}
         {% block body %}{% endblock %}
     </body>
 </html>

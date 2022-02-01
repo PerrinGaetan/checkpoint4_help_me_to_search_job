@@ -1,4 +1,18 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_errors(form) }}
+    <div class="row primarySearch">
+        {{ form_row(form.job, {'label': 'Emploi rechercher', 'row_attr': {'class': 'col-3'}}) }}
+        {{ form_row(form.city, {'label': 'Ville',  'row_attr': {'class': 'col-3'}}) }}
+        <div class="dropdown col-3">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                Plus de filtres :
+            </button>
+            <div class="row dropdown-menu">
+                {{ form_row(form.perimeter, {'label': 'Distance autour',  'row_attr': {'class': 'col-5, dropdown-item-text', 'required': false}, 'type': 'number'}) }}
+                {{ form_row(form.typeOfContract, {'label': 'Type de contrat',  'row_attr': {'class': 'col-5, dropdown-item-text', 'required': false}}) }}
+            </div>
+        </div>
+{{ form_rest(form) }}
+        <button type='submit' class="btn btn-primary col-1">{{ button_label|default('Rechercher') }}</button>
+    </div>
 {{ form_end(form) }}

@@ -14,11 +14,17 @@ class SearchFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class)
+            ->add('title', TextType::class, [
+                'required' => false,
+            ])
             ->add('job', TextType::class)
             ->add('city', TextType::class)
-            ->add('perimeter', NumberType::class)
-            ->add('typeOfContract', TextType::class)
+            ->add('perimeter', NumberType::class, [
+                'required' => false,
+            ])
+            ->add('typeOfContract', TextType::class, [
+                'required' => false,
+            ])
         ;
     }
 
