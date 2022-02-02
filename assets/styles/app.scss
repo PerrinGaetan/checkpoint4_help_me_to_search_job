@@ -3,3 +3,11 @@
 body {
     background-color: lightgray;
 }
+
+#logo {
+    max-width: 4em;
+    height: auto;
+    img {
+        box-sizing: content-box;
+    }
+}
