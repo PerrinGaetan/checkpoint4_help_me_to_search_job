@@ -1,7 +1,7 @@
 {{ form_start(form) }}
 {{ form_errors(form) }}
     <div class="row primarySearch">
-        {{ form_row(form.job, {'label': 'Emploi rechercher', 'row_attr': {'class': 'col-3'}}) }}
+        {{ form_row(form.job, {'label': 'Emploi rechercher', 'row_attr': {'class': 'col-4'}}) }}
         {{ form_row(form.city, {'label': 'Ville',  'row_attr': {'class': 'col-3'}}) }}
         <div class="dropdown col-3">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -13,6 +13,6 @@
             </div>
         </div>
 {{ form_rest(form) }}
-        <button type='submit' class="btn btn-primary col-1">{{ button_label|default('Rechercher') }}</button>
+        <button type='submit' class="btn btn-secondary col-1">{{ button_label|default('Rechercher') }}</button>
     </div>
 {{ form_end(form) }}
