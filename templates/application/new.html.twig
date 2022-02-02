@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Application{% endblock %}
+{% block title %}Nouvelle candidature{% endblock %}
 
 {% block body %}
-    <h1>Create new Application</h1>
+<div class="d-flex justify-content-end align-items-center m-5">
+    <a class="btn btn-secondary" href="{{ path('application_index') }}">Mes candidatures</a>
+    <h1 class="text-center m-4 flex-grow-1">Nouvelle candidature</h1>
+</div>
 
     {{ include('application/_form.html.twig') }}
 
-    <a href="{{ path('application_index') }}">back to list</a>
 {% endblock %}
