@@ -4,10 +4,18 @@ body {
     background-color: lightgray;
 }
 
-#logo {
-    max-width: 4em;
-    height: auto;
-    img {
-        box-sizing: content-box;
+
+
+.navbar {
+    max-height: 6em;
+    .container-fluid {
+        height: 100%;
+        #logo {
+            max-width: 4em;
+            height: auto;
+            img {
+                box-sizing: content-box;
+            }
+        }
     }
 }
