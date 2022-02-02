@@ -65,10 +65,11 @@ class ApplicationController extends AbstractController
      */
     public function edit(Request $request, Application $application, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(ApplicationType::class, $application);
+        $form = $this->createForm(ApplicationType::class, $application, ['hasResponse' => true, 'interviewResume' =>true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $application->setRelaunchDate(new DateTime('now'));
             $entityManager->flush();
 
             return $this->redirectToRoute('application_index', [], Response::HTTP_SEE_OTHER);
