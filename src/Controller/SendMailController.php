@@ -33,6 +33,9 @@ class SendMailController extends AbstractController
                 ->html('<p>'. $_POST['mailBody'] . '</p>')
                 ->attachFromPath($_FILES['cv']['name']);
             $mailer->send($mail);
+
+            $this->addFlash('success', 'Votre candidature a bien été envoyé');
+
             if ($this->getUser()) {
                 $newApplication = new Application();
                 $newApplication->setCompany($jobOffer->getCompany());
@@ -46,6 +49,8 @@ class SendMailController extends AbstractController
                 $newApplication->setUser($this->getUser());
                 $entityManager->persist($newApplication);
                 $entityManager->flush();
+
+                $this->addFlash('success', 'Votre candidature a bien été sauvegardé dans votre liste de candidature');
             }
 
             return $this->redirectToRoute('search_filter_new', [], Response::HTTP_SEE_OTHER);
