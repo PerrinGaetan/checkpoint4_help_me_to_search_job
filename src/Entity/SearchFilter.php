@@ -20,12 +20,12 @@ class SearchFilter
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $job;
+    private ?string $job;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $city;
+    private ?string $city;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -35,12 +35,18 @@ class SearchFilter
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $typeOfContract;
+    private ?string $typeOfContract = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private ?string $title;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="searchFilters")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function getId(): ?int
     {
@@ -103,6 +109,18 @@ class SearchFilter
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
