@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -42,6 +44,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\Length(min = 8, minMessage = "this password is to small, 8 characters minimum is required")
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Application::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $application;
+
+    public function __construct()
+    {
+        $this->application = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -130,5 +142,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Application[]
+     */
+    public function getApplication(): Collection
+    {
+        return $this->application;
+    }
+
+    public function addApplication(Application $application): self
+    {
+        if (!$this->application->contains($application)) {
+            $this->application[] = $application;
+            $application->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApplication(Application $application): self
+    {
+        if ($this->application->removeElement($application)) {
+            // set the owning side to null (unless already changed)
+            if ($application->getUser() === $this) {
+                $application->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

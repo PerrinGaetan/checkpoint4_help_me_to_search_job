@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Application;
 use App\Entity\JobOffer;
 use App\Form\MailingApplicationType;
+use App\Repository\ApplicationRepository;
 use App\Repository\JobOfferRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,8 +33,20 @@ class SendMailController extends AbstractController
                 ->html('<p>'. $_POST['mailBody'] . '</p>')
                 ->attachFromPath($_FILES['cv']['name']);
             $mailer->send($mail);
-
-
+            if ($this->getUser()) {
+                $newApplication = new Application();
+                $newApplication->setCompany($jobOffer->getCompany());
+                $newApplication->setContactName($jobOffer->getContact());
+                $newApplication->setTypeOfCompany($jobOffer->getTypeOfCompany());
+                $newApplication->setDescription($jobOffer->getDescription());
+                $newApplication->setApplicationDate(new DateTime('now'));
+                $newApplication->setCity($jobOffer->getCity());
+                $newApplication->setEmail($jobOffer->getEmail());
+                $newApplication->setPhone($jobOffer->getPhone());
+                $newApplication->setUser($this->getUser());
+                $entityManager->persist($newApplication);
+                $entityManager->flush();
+            }
 
             return $this->redirectToRoute('search_filter_new', [], Response::HTTP_SEE_OTHER);
         }
