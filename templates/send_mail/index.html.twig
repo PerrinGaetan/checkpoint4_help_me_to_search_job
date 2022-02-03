@@ -8,13 +8,12 @@
 {% block title %}Hello SendMailController!{% endblock %}
 
 {% block body %}
-
 <div class="container">
-    <form action="{{ path('send_mail') }}" method="POST" class='form m-4' enctype="multipart/form-data">
+    <form action="{{ path('send_mail', {'offerId': offerJob.id}) }}" method="POST" class='form m-4' enctype="multipart/form-data">
         <div class='mailBox'>
             <label for="userEmail" class="form-label">De :<input type="email" name="userEmail" id="userEmail" value="{{ (app.user) ? app.user.email : ''}}" class='form form-control'></label>
-            <label for="recipientEmail" class="form-label">A :<input type="email" name="recipientEmail" id="recipientEmail" value="{{ (job is defined) ? job.email : ''}}" class='form form-control'></label>
-            <label for="topic">Objet : <input type="text" name="topic" id="topic"></label>
+            <label for="recipientEmail" class="form-label">A :<input type="email" name="recipientEmail" id="recipientEmail" value="{{ (offerJob is defined) ? offerJob.email : ''}}" class='form form-control'></label>
+            <label for="topic">Objet : <input type="text" name="topic" id="topic" value="{{ (offerJob is defined) ? 'candidature au poste de ' ~ offerJob.job  : ''}}" ></label>
             <label for="mailBody" class="form-label"><textarea name="mailBody" id="mailBody" cols="30" rows="10" class='form form-control'></textarea></label>
             <label for="cv">Charger votre CV : <input type="file" name="cv" id="cv"></label>
         </div>

@@ -3,36 +3,19 @@
 {% block title %}SearchFilter{% endblock %}
 
 {% block body %}
-    <h1>SearchFilter</h1>
+    <h1>{{job.job}}</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ search_filter.id }}</td>
-            </tr>
-            <tr>
-                <th>Job</th>
-                <td>{{ search_filter.job }}</td>
-            </tr>
-            <tr>
-                <th>City</th>
-                <td>{{ search_filter.city }}</td>
-            </tr>
-            <tr>
-                <th>Perimeter</th>
-                <td>{{ search_filter.perimeter }}</td>
-            </tr>
-            <tr>
-                <th>TypeOfContract</th>
-                <td>{{ search_filter.typeOfContract }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div>
+        <div class="container">
+            <h2><a href="{{ path('search_filter_show', {'id': job.id}) }}">{{job.job}}</a></h2>
+            <p>{{ job.company}}</p>
+            <p>{{ job.city}}</p>
+            <p>{{ job.description}}</p>
+        </div>
+    </div>
+    <a href="{{ path('send_mail', {'offerId': job.id}) }}">Candidater</a>
 
-    <a href="{{ path('search_filter_index') }}">back to list</a>
+    <a href="{{ path('search_filter_index') }}">Retour à la recherche</a>
 
-    <a href="{{ path('search_filter_edit', {'id': search_filter.id}) }}">edit</a>
 
-    {{ include('search_filter/_delete_form.html.twig') }}
 {% endblock %}
