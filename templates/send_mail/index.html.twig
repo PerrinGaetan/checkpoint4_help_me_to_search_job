@@ -10,7 +10,7 @@
 {% block body %}
 
 <div class="container">
-    <form action="" method="post" class='form m-4' enctype="multipart/form-data">
+    <form action="{{ path('send_mail') }}" method="POST" class='form m-4' enctype="multipart/form-data">
         <div class='mailBox'>
             <label for="userEmail" class="form-label">De :<input type="email" name="userEmail" id="userEmail" value="{{ (app.user) ? app.user.email : ''}}" class='form form-control'></label>
             <label for="recipientEmail" class="form-label">A :<input type="email" name="recipientEmail" id="recipientEmail" value="{{ (job is defined) ? job.email : ''}}" class='form form-control'></label>
