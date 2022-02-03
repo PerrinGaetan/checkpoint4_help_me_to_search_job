@@ -27,15 +27,27 @@ class JobOfferRepository extends ServiceEntityRepository
         $job = "";
         $city = "";
         $contractType = "";
-        // dd($_POST);
-        if ($_POST['search_filter']['job']) {
-            $job = $data->getJob();
+        if ($_POST['search_filter']) {
+            if ($_POST['search_filter']['job']) {
+                $job = $data->getJob();
+            }
+            if ($_POST['search_filter']['city']) {
+                $city = $data->getCity();
+            }
+            if ($_POST['search_filter']['typeOfContract']) {
+                $contractType = $data->getTypeOfContract();
+            }
         }
-        if ($_POST['search_filter']['city']) {
-            $city = $data->getCity();
-        }
-        if ($_POST['search_filter']['typeOfContract']) {
-            $contractType = $data->getTypeOfContract();
+        if (isset($_POST['myFilter'])) {
+            if (null !== $data->getJob()) {
+                $job = $data->getJob();
+            }
+            if (null !== $data->getCity()) {
+                $city = $data->getCity();
+            }
+            if (null !== $data->getTypeOfContract()) {
+                $contractType = $data->getTypeOfContract();
+            }
         }
 
         return $this->createQueryBuilder('j')

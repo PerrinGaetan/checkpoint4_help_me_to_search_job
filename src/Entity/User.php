@@ -50,9 +50,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $application;
 
+    /**
+     * @ORM\OneToMany(targetEntity=SearchFilter::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $searchFilters;
+
     public function __construct()
     {
         $this->application = new ArrayCollection();
+        $this->searchFilters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -168,6 +174,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($application->getUser() === $this) {
                 $application->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SearchFilter[]
+     */
+    public function getSearchFilters(): Collection
+    {
+        return $this->searchFilters;
+    }
+
+    public function addSearchFilter(SearchFilter $searchFilter): self
+    {
+        if (!$this->searchFilters->contains($searchFilter)) {
+            $this->searchFilters[] = $searchFilter;
+            $searchFilter->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSearchFilter(SearchFilter $searchFilter): self
+    {
+        if ($this->searchFilters->removeElement($searchFilter)) {
+            // set the owning side to null (unless already changed)
+            if ($searchFilter->getUser() === $this) {
+                $searchFilter->setUser(null);
             }
         }
 

@@ -17,8 +17,12 @@ class SearchFilterType extends AbstractType
             ->add('title', TextType::class, [
                 'required' => false,
             ])
-            ->add('job', TextType::class)
-            ->add('city', TextType::class)
+            ->add('job', TextType::class, [
+                'required' => false,
+            ])
+            ->add('city', TextType::class, [
+                'required' => false,
+            ])
             ->add('perimeter', NumberType::class, [
                 'required' => false,
             ])

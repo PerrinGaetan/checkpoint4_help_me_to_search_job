@@ -27,32 +27,43 @@ class SearchFilterController extends AbstractController
     public function index(SearchFilterRepository $searchFilterRepository): Response
     {
         return $this->render('search_filter/index.html.twig', [
-            'search_filters' => $searchFilterRepository->findAll(),
+            'search_filters' => $searchFilterRepository->findBy(['user' => $this->getUser()]),
         ]);
     }
 
     /**
-     * @Route("/nouvelle_recherche", name="new", methods={"GET", "POST"})
+     * @Route("/nouvelle-recherche", name="new", methods={"GET", "POST"})
      */
     public function new(Request $request, EntityManagerInterface $entityManager,
-    JobOfferRepository $jobOfferRepository): Response
+    JobOfferRepository $jobOfferRepository, SearchFilterRepository $searchFilterRepository): Response
     {
-
+        if ($this->getUser()) {
+            $myFilters = $searchFilterRepository->findBy(['user' => $this->getUser()]);
+        }  else {
+            $myFilters = "";
+        }
         $searchFilter = new SearchFilter();
         $form = $this->createForm(SearchFilterType::class, $searchFilter);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $resultByJob = $jobOfferRepository->findByFilter($data);
-            if ($form['title']->getData()) {
-                $entityManager->persist($searchFilter);
-                $entityManager->flush();
+            if (isset($_POST['myFilter']) && $_POST['myFilter'] !== "") {
+                $filter = $searchFilterRepository->findOneBy(['title' => $_POST['myFilter']]);
+            $resultByJob = $jobOfferRepository->findByFilter($filter);
+            } else {
+                $resultByJob = $jobOfferRepository->findByFilter($data);
+                if ($form['title']->getData()) {
+                    $searchFilter->setUser($this->getUser());
+                    $entityManager->persist($searchFilter);
+                    $entityManager->flush();
+                }
             }
 
             return $this->renderForm('search_filter/new.html.twig', [
                 'search_filter' => $searchFilter,
                 'form' => $form,
                 'result' => $resultByJob,
+                'myFilters' => $myFilters,
             ]);
             // return $this->redirectToRoute('search_filter_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -60,6 +71,7 @@ class SearchFilterController extends AbstractController
         return $this->renderForm('search_filter/new.html.twig', [
             'search_filter' => $searchFilter,
             'form' => $form,
+            'myFilters' => $myFilters,
         ]);
     }
 
