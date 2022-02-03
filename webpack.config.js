@@ -25,6 +25,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addStyleEntry('search', './assets/styles/search.scss')
+    .addStyleEntry('mailBox', './assets/styles/mailBox.scss')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
