@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\JobOffer;
 use App\Form\MailingApplicationType;
+use App\Repository\JobOfferRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,10 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class SendMailController extends AbstractController
 {
     /**
-     * @Route("/send/mail", name="send_mail")
+     * @Route("/send/mail/{offerId}", name="send_mail", methods={"GET", "POST"})
      */
-    public function index(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
+    public function index($offerId, Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer, JobOfferRepository $jobOfferRepository): Response
     {
+        $jobOffer = $jobOfferRepository->findOneBy(['id' => $offerId]);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $mail = (new Email())
@@ -28,10 +31,13 @@ class SendMailController extends AbstractController
                 ->attachFromPath($_FILES['cv']['name']);
             $mailer->send($mail);
 
+
+
             return $this->redirectToRoute('search_filter_new', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('send_mail/index.html.twig', [
+            'offerJob' => $jobOffer,
         ]);
     }
 }

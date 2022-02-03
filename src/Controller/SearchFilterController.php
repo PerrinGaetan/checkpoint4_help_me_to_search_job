@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\JobOffer;
 use App\Entity\SearchFilter;
 use App\Form\SearchFilterType;
+use App\Repository\JobOfferRepository;
 use App\Repository\SearchFilterRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,20 +34,27 @@ class SearchFilterController extends AbstractController
     /**
      * @Route("/nouvelle_recherche", name="new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,
+    JobOfferRepository $jobOfferRepository): Response
     {
+
         $searchFilter = new SearchFilter();
         $form = $this->createForm(SearchFilterType::class, $searchFilter);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $job = $data->getJob();
-            $city = $data->getcity();
+            $resultByJob = $jobOfferRepository->findByFilter($data);
+            if ($form['title']->getData()) {
+                $entityManager->persist($searchFilter);
+                $entityManager->flush();
+            }
 
-            $entityManager->persist($searchFilter);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('search_filter_index', [], Response::HTTP_SEE_OTHER);
+            return $this->renderForm('search_filter/new.html.twig', [
+                'search_filter' => $searchFilter,
+                'form' => $form,
+                'result' => $resultByJob,
+            ]);
+            // return $this->redirectToRoute('search_filter_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('search_filter/new.html.twig', [
@@ -57,10 +66,10 @@ class SearchFilterController extends AbstractController
     /**
      * @Route("/{id}", name="show", methods={"GET"})
      */
-    public function show(SearchFilter $searchFilter): Response
+    public function show(JobOffer $jobOffer): Response
     {
         return $this->render('search_filter/show.html.twig', [
-            'search_filter' => $searchFilter,
+            'job' => $jobOffer,
         ]);
     }
 
