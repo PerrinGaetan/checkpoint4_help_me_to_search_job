@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -30,7 +32,7 @@ class SearchFilterController extends AbstractController
     /**
      * @Route("/nouvelle_recherche", name="new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         $searchFilter = new SearchFilter();
         $form = $this->createForm(SearchFilterType::class, $searchFilter);
@@ -39,7 +41,6 @@ class SearchFilterController extends AbstractController
             $data = $form->getData();
             $job = $data->getJob();
             $city = $data->getcity();
-            $client = HttpClient::create();
 
             $entityManager->persist($searchFilter);
             $entityManager->flush();
