@@ -8,6 +8,12 @@
         <h1 class="flex-grow-1 text-center">Mes candidatures</h1>
         <a class='btn btn-secondary' href="{{ path('application_new') }}">Ajouter une candidature</a>
     </div>
+    <div class="search m-4">
+        <form action="" method="post" class="d-flex justify-content-center">
+            <input type="search" name="searchApplication" id="searchApplication">
+            <input type="submit" value="Rechercher">
+        </form>
+    </div>
     <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>
