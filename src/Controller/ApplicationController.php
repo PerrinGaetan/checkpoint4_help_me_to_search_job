@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Application;
+use App\Entity\User;
 use App\Form\ApplicationType;
 use App\Repository\ApplicationRepository;
 use DateTime;
@@ -18,10 +19,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApplicationController extends AbstractController
 {
     /**
-     * @Route("/", name="index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET", "POST"})
      */
     public function index(ApplicationRepository $applicationRepository): Response
     {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $search = $_POST['searchApplication'];
+            /** @var User $user */
+            $user = $this->getUser();
+            $userId = $user->getId();
+            return $this->render('application/index.html.twig', [
+                'applications' => $applicationRepository->findByName($_POST['searchApplication'], $userId ),
+            ]);
+        }
         return $this->render('application/index.html.twig', [
             'applications' => $applicationRepository->findBy(['user' => $this->getUser()]),
         ]);
