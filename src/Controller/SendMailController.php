@@ -6,6 +6,8 @@ use App\Entity\Application;
 use App\Entity\JobOffer;
 use App\Repository\ApplicationRepository;
 use App\Repository\JobOfferRepository;
+use App\Service\SaveApplicationService;
+use App\Service\SendMailService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,35 +22,17 @@ class SendMailController extends AbstractController
     /**
      * @Route("/send/mail/{offerId}", name="send_mail", methods={"GET", "POST"})
      */
-    public function index($offerId, Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer, JobOfferRepository $jobOfferRepository): Response
+    public function index($offerId, Request $request, EntityManagerInterface $entityManager, JobOfferRepository $jobOfferRepository, SendMailService $sendMail, MailerInterface $mailer, SaveApplicationService $saveApplicationService): Response
     {
         $jobOffer = $jobOfferRepository->findOneBy(['id' => $offerId]);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $mail = (new Email())
-                ->from($_POST['userEmail'])
-                ->to('ibanez2@hotmail.fr')
-                ->subject($_POST['topic'])
-                ->html('<p>'. $_POST['mailBody'] . '</p>')
-                ->attachFromPath($_FILES['cv']['name']);
-            $mailer->send($mail);
-
+            $sendMail->send($mailer);
             $this->addFlash('success', 'Votre candidature a bien été envoyé');
 
-            if ($this->getUser()) {
-                $newApplication = new Application();
-                $newApplication->setCompany($jobOffer->getCompany());
-                $newApplication->setContactName($jobOffer->getContact());
-                $newApplication->setTypeOfCompany($jobOffer->getTypeOfCompany());
-                $newApplication->setDescription($jobOffer->getDescription());
-                $newApplication->setApplicationDate(new DateTime('now'));
-                $newApplication->setCity($jobOffer->getCity());
-                $newApplication->setEmail($jobOffer->getEmail());
-                $newApplication->setPhone($jobOffer->getPhone());
-                $newApplication->setUser($this->getUser());
-                $entityManager->persist($newApplication);
-                $entityManager->flush();
-
+            $user = $this->getUser();
+            if ($user !== null) {
+                $saveApplicationService->save($user, $jobOffer, $entityManager);
                 $this->addFlash('success', 'Votre candidature a bien été sauvegardé dans votre liste de candidature');
             }
 
