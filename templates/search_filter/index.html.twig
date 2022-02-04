@@ -8,10 +8,8 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Job</th>
                 <th>City</th>
-                <th>Perimeter</th>
                 <th>TypeOfContract</th>
                 <th>actions</th>
             </tr>
@@ -19,14 +17,12 @@
         <tbody>
         {% for search_filter in search_filters %}
             <tr>
-                <td>{{ search_filter.id }}</td>
                 <td>{{ search_filter.job }}</td>
                 <td>{{ search_filter.city }}</td>
-                <td>{{ search_filter.perimeter }}</td>
                 <td>{{ search_filter.typeOfContract }}</td>
                 <td>
                     <a href="{{ path('search_filter_show', {'id': search_filter.id}) }}">show</a>
-                    <a href="{{ path('search_filter_edit', {'id': search_filter.id}) }}">edit</a>
+                    <a href="{{ path('search_filter_edit', {'id': search_filter.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}

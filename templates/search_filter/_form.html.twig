@@ -1,21 +1,21 @@
 {{ form_start(form) }}
 {{ form_errors(form) }}
     <div class="row primarySearch">
-        {{ form_row(form.job, {'label': 'Emploi rechercher', 'row_attr': {'class': 'col-4'}}) }}
-        {{ form_row(form.city, {'label': 'Ville',  'row_attr': {'class': 'col-4'}}) }}
-        <div class="dropdown col-3">
+        {{ form_row(form.job, {'label': 'Emploi rechercher', 'row_attr': {'class': 'col-md-4 align-items-center'}}) }}
+        {{ form_row(form.city, {'label': 'Ville',  'row_attr': {'class': 'col-md-4'}}) }}
+        <div class="dropdown col-md-3 m-3">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                 Plus de filtres :
             </button>
             <div class="row dropdown-menu">
-                {{ form_row(form.perimeter, {'label': 'Distance autour',  'row_attr': {'class': 'col-5, dropdown-item-text', 'required': false}, 'type': 'number'}) }}
-                {{ form_row(form.typeOfContract, {'label': 'Type de contrat',  'row_attr': {'class': 'col-5, dropdown-item-text', 'required': false}}) }}
+                {{ form_row(form.perimeter, {'label': 'Distance autour',  'row_attr': {'class': 'col-md-5, dropdown-item-text', 'required': false}, 'type': 'number'}) }}
+                {{ form_row(form.typeOfContract, {'label': 'Type de contrat',  'row_attr': {'class': 'col-md-5, dropdown-item-text', 'required': false}}) }}
             </div>
         </div>
-        {{ form_row(form.title, {'label': 'Nom de recherche',  'row_attr': {'class': 'col-5'}}) }}
+        {{ form_row(form.title, {'label': 'Nom de recherche',  'row_attr': {'class': 'col-md-7'}}) }}
         {% if app.user is defined  %}
             {% if myFilters %}
-                <label for="myFilter" class="col-2">Mes filtres :
+                <label for="myFilter" class="col-md-2 mt-3">Mes filtres :
                     <select name="myFilter" id="myFilter">
                         <option value="" selected ></option>
                         {% for myFilter in myFilters %}
@@ -25,7 +25,9 @@
                 </label>
             {% endif %}
         {% endif %}
-        <button type='submit' class="btn btn-secondary col-1">{{ button_label|default('Rechercher') }}</button>
+    </div>
+    <div class='d-flex justify-content-center m-5'>
+        <button type='submit' class="btn btn-secondary col-4 ">{{ button_label|default('Rechercher') }}</button>
     </div>
     {{ form_rest(form) }}
 {{ form_end(form) }}
