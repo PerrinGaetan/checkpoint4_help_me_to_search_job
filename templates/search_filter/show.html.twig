@@ -3,19 +3,20 @@
 {% block title %}SearchFilter{% endblock %}
 
 {% block body %}
-    <h1>{{job.job}}</h1>
+    <a href="{{ path('search_filter_index') }}" class="btn btn-secondary m-lg-4">Retour à la recherche</a>
 
     <div>
-        <div class="container">
+        <div class="container mt-5">
             <h2><a href="{{ path('search_filter_show', {'id': job.id}) }}">{{job.job}}</a></h2>
             <p>{{ job.company}}</p>
             <p>{{ job.city}}</p>
             <p>{{ job.description}}</p>
         </div>
     </div>
-    <a href="{{ path('send_mail', {'offerId': job.id}) }}">Candidater</a>
+    <div class="d-flex justify-content-md-center">
+        <a href="{{ path('send_mail', {'offerId': job.id}) }}" class="btn btn-secondary">Candidater</a>
+    </div>
 
-    <a href="{{ path('search_filter_index') }}">Retour à la recherche</a>
 
 
 {% endblock %}

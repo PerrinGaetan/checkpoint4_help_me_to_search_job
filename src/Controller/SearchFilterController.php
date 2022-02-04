@@ -7,6 +7,7 @@ use App\Entity\SearchFilter;
 use App\Form\SearchFilterType;
 use App\Repository\JobOfferRepository;
 use App\Repository\SearchFilterRepository;
+use App\Service\APIService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
@@ -35,7 +36,7 @@ class SearchFilterController extends AbstractController
      * @Route("/nouvelle-recherche", name="new", methods={"GET", "POST"})
      */
     public function new(Request $request, EntityManagerInterface $entityManager,
-    JobOfferRepository $jobOfferRepository, SearchFilterRepository $searchFilterRepository): Response
+    JobOfferRepository $jobOfferRepository, SearchFilterRepository $searchFilterRepository, APIService $aPIService): Response
     {
         if ($this->getUser()) {
             $myFilters = $searchFilterRepository->findBy(['user' => $this->getUser()]);
@@ -45,6 +46,7 @@ class SearchFilterController extends AbstractController
         $searchFilter = new SearchFilter();
         $form = $this->createForm(SearchFilterType::class, $searchFilter);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             if (isset($_POST['myFilter']) && $_POST['myFilter'] !== "") {
@@ -72,6 +74,7 @@ class SearchFilterController extends AbstractController
             'search_filter' => $searchFilter,
             'form' => $form,
             'myFilters' => $myFilters,
+            'result' => $aPIService->fetchAllOffer(),
         ]);
     }
 

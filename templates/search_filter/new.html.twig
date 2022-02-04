@@ -9,17 +9,17 @@
     <h1>Rechercher un emploi</h1>
 
     {{ include('search_filter/_form.html.twig') }}
- {# <pe-offres-emploi></pe-offres-emploi> #}
-    <a href="{{ path('search_filter_index') }}">back to list</a>
 
     <div>
         {% if result is defined %}
             <div class="container">
                 {% for job in result %}
+                <div class="border-1 border p-3 mb-2">
                     <h2><a href="{{ path('search_filter_show', {'id': job.id}) }}">{{job.job}}</a></h2>
                     <p>{{ job.company}}</p>
                     <p>{{ job.city}}</p>
-                    <p>{{ job.description}}</p>
+                    <p class="description">{{ job.description}}</p>
+                </div>
                 {% endfor %}
             </div>
         {% endif %}

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Application;
 use App\Entity\JobOffer;
-use App\Form\MailingApplicationType;
 use App\Repository\ApplicationRepository;
 use App\Repository\JobOfferRepository;
 use DateTime;
